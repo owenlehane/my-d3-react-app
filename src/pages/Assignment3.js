@@ -9,12 +9,12 @@ function Assignment3() {
 
     const handleResponseSubmit = () => {
         const reportedValue = parseFloat(participantResponse); // Convert input to a number
-        const trueValue = data.find(d => d.mark).value; // Assuming 'mark' indicates the target bar
+        const trueValue = data.find(d => d.mark).value; 
         const totalValue = data.reduce((acc, item) => acc + item.value, 0); // Sum of all values
     
         const error = calculateError(reportedValue, totalValue, trueValue); // Calculate the error
     
-        // Store the new response with its error
+        
         setResponses([...responses, { reportedValue, truePercent: (trueValue / totalValue) * 100, error }]);
         setParticipantResponse(''); // Reset input field
     };
@@ -22,13 +22,13 @@ function Assignment3() {
 
     
     const calculateError = (reportedValue, totalValue, trueValue) => {
-        // Calculate the true percentage (part compared to the whole)
+        
         const truePercent = (trueValue / totalValue) * 100;
     
-        // Calculate the reported percentage (what the participant reported as a percentage)
+       
         const reportedPercent = (reportedValue / totalValue) * 100;
     
-        // Calculate the absolute difference and apply the logarithmic scale with the offset of 1/8
+        
         const difference = Math.abs(reportedPercent - truePercent);
         const error = Math.log2(difference + 1/8);
     
@@ -38,9 +38,9 @@ function Assignment3() {
 
 
 
-    const [visualizationType, setVisualizationType] = useState('bar'); // 'bar', 'pie', 'stacked-bar'
+    const [visualizationType, setVisualizationType] = useState('bar'); 
 
-    // Function to generate random data
+   
     const generateData = () => {
         const newData = Array.from({ length: Math.floor(Math.random() * 6) + 5 }, () => ({
             value: Math.floor(Math.random() * 101),
@@ -52,7 +52,7 @@ function Assignment3() {
         return newData;
     };
 
-    // Handle visualization change
+    
     const handleVisualizationChange = (type) => {
         setVisualizationType(type);
         setData(generateData());
@@ -60,9 +60,9 @@ function Assignment3() {
 
     useEffect(() => {
         const svg = d3.select('svg');
-        svg.selectAll('*').remove(); // Clear previous visualization
+        svg.selectAll('*').remove(); 
     
-        // Set dimensions and margins
+        
         const width = 800, height = 500, margin = 40;
         const radius = Math.min(width, height) / 2 - margin;
     
@@ -97,22 +97,22 @@ function Assignment3() {
              .attr('fill', 'white')
              .attr('stroke', 'black');
         
-            // Adjusting dots to ensure they are always inside the bars
+            // This should make it so dots are always inside the graphs... wonky
             g.selectAll('.dot')
              .data(data.filter(d => d.mark))
              .enter().append('circle')
              .attr('class', 'dot')
              .attr('cx', (d, i) => x(i) + x.bandwidth() / 2)
              .attr('cy', d => {
-                 // Position the dot within the bar, avoiding the very top or bottom
+                 
                  const barHeight = height - y(d.value);
-                 return y(d.value) + barHeight * 0.1; // Position the dot 10% down from the top of the bar
+                 return y(d.value) + barHeight * 0.1; 
              })
              .attr('r', 5)
              .attr('fill', 'black');
              
         } else if (visualizationType === 'pie') {
-            // Create a pie chart with black outlines
+           
             const pie = d3.pie().value(d => d.value);
             const data_ready = pie(data);
     
@@ -131,7 +131,7 @@ function Assignment3() {
                .attr("stroke", "black")
                .style("stroke-width", "2px");
     
-            // Adding dots to mark data points
+            
             svg.append("g")
                .attr("transform", `translate(${width / 2}, ${height / 2})`)
                .selectAll('circle')
@@ -143,14 +143,14 @@ function Assignment3() {
                .attr('fill', 'black');
     
         } else if (visualizationType === 'stacked-bar') {
-            // Assuming data is structured for individual segments
+            
             const keys = data.map((_, i) => `value${i}`);
             const stackGenerator = d3.stack()
                 .keys(keys)
                 .order(d3.stackOrderNone)
                 .offset(d3.stackOffsetNone);
     
-            // Prepare a single data item for stacking
+            
             const modifiedData = [{
                 ...data.reduce((acc, d, i) => ({ ...acc, [`value${i}`]: d.value }), {})
             }];
@@ -158,15 +158,15 @@ function Assignment3() {
             const layers = stackGenerator(modifiedData);
     
             const yScale = d3.scaleLinear()
-                .domain([0, d3.sum(data, d => d.value)]) // Scale to sum of values
+                .domain([0, d3.sum(data, d => d.value)]) 
                 .range([height, 0]);
     
             const xScale = d3.scaleBand()
-                .domain([0]) // Single bar
+                .domain([0]) 
                 .range([0, width])
                 .padding(0.1);
     
-            // Draw the stacked bar
+            
             svg.append("g")
                 .selectAll("g")
                 .data(layers)
@@ -177,20 +177,20 @@ function Assignment3() {
                 .selectAll("rect")
                 .data(d => d)
                 .enter().append("rect")
-                .attr("x", width / 4) // Center the bar
+                .attr("x", width / 4) 
                 .attr("y", d => yScale(d[1]))
                 .attr("height", d => yScale(d[0]) - yScale(d[1]))
                 .attr("width", width / 2);
     
-            // Adding dots for marked data points
+            
             data.forEach((d, i) => {
                 if (d.mark) {
                     let segmentTop = yScale(layers[i][0][1]);
                     let segmentBottom = yScale(layers[i][0][0]);
-                    let middleY = (segmentTop + segmentBottom) / 2; // Calculate the middle of the segment
+                    let middleY = (segmentTop + segmentBottom) / 2; 
     
                     svg.append("circle")
-                        .attr("cx", width / 2) // Center horizontally in the bar
+                        .attr("cx", width / 2) 
                         .attr("cy", middleY)
                         .attr("r", 5)
                         .attr("fill", "black");

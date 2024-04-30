@@ -5,7 +5,7 @@ function Assignment1() {
     const ref = useRef();
 
     useEffect(() => {
-        // Select the SVG canvas, set width and height
+        
         const svg = d3.select(ref.current)
                       .attr('width', 800)
                       .attr('height', 600);
