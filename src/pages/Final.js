@@ -1,20 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import './Final.css'; // Assuming you have some basic styles defined
+import responseData from '/Users/owenlehane/my-d3-react-app/src/Goatconnect User Study Survey.json'; // Make sure the path is correct
 
 function Final() {
     const svgRef = useRef();
     const tooltipRef = useRef();
 
     useEffect(() => {
-        const data = [
-            { id: 1, time: "09:30", answers: { "Q1": "Yes", "Q2": "No", "Q3": "Maybe", "Q4": "Yes", "Q5": "No", "Q6": "Maybe", "Q7": "Yes", "Q8": "No" } },
-            { id: 2, time: "09:45", answers: { "Q1": "No", "Q2": "Yes", "Q3": "Yes", "Q4": "No", "Q5": "Maybe", "Q6": "Yes", "Q7": "No", "Q8": "Maybe" } },
-            // More data points
-        ];
-
-        const parseTime = d3.timeParse("%H:%M");
-        const transformedData = data.map(d => ({
+        const parseTime = d3.timeParse("%H:%M:%S");
+        const transformedData = responseData.map(d => ({
             ...d,
             time: parseTime(d.time)
         }));
@@ -68,3 +63,4 @@ function Final() {
 }
 
 export default Final;
+

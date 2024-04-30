@@ -12,6 +12,7 @@ function App() {
       <h1>CS4808 Data Vizualization</h1>
       <nav>
         <ul>
+        <li><Link to="/home">Assignment 1</Link></li>
           <li><Link to="/assignment1">Assignment 1</Link></li>
           <li><Link to="/assignment2">Assignment 2</Link></li>
           <li><Link to="/assignment3">Assignment 3</Link></li>
@@ -19,6 +20,7 @@ function App() {
         </ul>
       </nav>
       <Routes>
+      <Route path="/home" element={<Assignment1 />} />
         <Route path="/assignment1" element={<Assignment1 />} />
         <Route path="/assignment2" element={<Assignment2 />} />
         <Route path="/assignment3" element={<Assignment3 />} />
