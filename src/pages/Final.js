@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import './Final.css'; 
 
 
-import responseData from '/Users/owenlehane/my-d3-react-app/src/Goatconnect User Study Survey.json';
+import responseData from './Goatconnect User Study Survey.json';
 
 function Final() {
     const svgRef = useRef();
