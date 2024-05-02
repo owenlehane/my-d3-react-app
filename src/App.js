@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import Home from '/Users/owenlehane/my-d3-react-app/src/Home.js'
+import Home from './Home.js'
 import Assignment1 from './pages/Assignment1';
 import Assignment2 from './pages/Assignment2';
 import Assignment3 from './pages/Assignment3';
